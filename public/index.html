@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jarvis</title>
+</head>
+<body>
+  <h1>Jarvis</h1>
+
+  <input id="command" placeholder="Digite um comando" />
+  <button id="send">Enviar</button>
+
+  <p id="response"></p>
+
+  <script>
+    const input = document.getElementById('command');
+    const button = document.getElementById('send');
+    const responseBox = document.getElementById('response');
+
+    button.addEventListener('click', async () => {
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      const res = await fetch('/jarvis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await res.json();
+
+      responseBox.textContent = data.response;
+
+      if (data.audio) {
+        const audio = new Audio(data.audio + '?t=' + Date.now());
+        await audio.play();
+      }
+    });
+  </script>
+</body>
+</html>
