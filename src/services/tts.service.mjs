@@ -16,7 +16,7 @@ async function convertMp3ToWav(input, output) {
 }
 
 async function runVoiceFixer(input, output) {
-  await execFileAsync('python', ['tools/enhance_voice.py', input, output]);
+  await execFileAsync('python3', ['tools/enhance_voice.py', input, output]);
 }
 
 async function runFinalPolish(input, output) {
